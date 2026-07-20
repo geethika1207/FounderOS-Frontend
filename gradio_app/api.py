@@ -64,6 +64,8 @@ def _handle_response(resp: requests.Response) -> Any:
 
 def _request(method: str, base_url: str, path: str, token: Optional[str] = None,
              timeout: Optional[int] = None, **kwargs) -> Any:
+    print("Calling:", _url(base_url, path))
+
     try:
         resp = requests.request(
             method,
@@ -72,6 +74,10 @@ def _request(method: str, base_url: str, path: str, token: Optional[str] = None,
             timeout=timeout or config.REQUEST_TIMEOUT,
             **kwargs,
         )
+
+        print(resp.status_code)
+        print(resp.text)
+        
     except requests.exceptions.ConnectTimeout:
         raise ApiError("Connecting to the backend timed out.")
     except requests.exceptions.ConnectionError:
